@@ -1,5 +1,5 @@
 # Basic-Toolkit-for-Bioinfomatics-Research
-Repository for BT4BR classes
+Repository for BT4BR classes 
 
 **Author** : Diemid Rybchenko, **Date** : 26.11.2025
 **Description** : Second-year Bioinformatics student at Jagiellonian University
