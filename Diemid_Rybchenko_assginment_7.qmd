@@ -1,0 +1,69 @@
+---
+title: "Assignment_7"
+format: html
+date: 10.12.2025
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+library(dplyr)
+library(tidyr)
+```
+
+You can add options to executable code like this
+
+```{r}
+# Adding iris set (task 1)
+iris_long <- iris %>%
+  pivot_longer(
+    cols = -Species,
+    names_to = "Trait",
+    values_to = "Size"
+  )
+
+print(iris_long)
+
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+```{r}
+# Task 2.1
+mean_by_species <- iris_long %>%
+  group_by(Species, Trait) %>%
+  summarise(mean_size = mean(Size), .groups = "drop")
+
+print(mean_by_species)
+```
+
+```{r}
+# Task 2.2
+max_values <- iris_long %>%
+  filter(Species %in% c("virginica", "versicolor")) %>%
+  group_by(Species, Trait) %>%
+  summarise(max_size = max(Size), .groups = "drop")
+
+print(max_values)
+```
+
+```{r}
+# Task 2.3
+means_tbl <- iris_long %>%
+  group_by(Species, Trait) %>%
+  summarise(mean_size = mean(Size), .groups = "drop")
+above_mean <- iris_long %>%
+  left_join(means_tbl, by = c("Species", "Trait")) %>%
+  mutate(is_above = Size > mean_size) %>%
+  group_by(Species, Trait) %>%
+  summarise(n_above = sum(is_above), .groups = "drop")
+
+print(above_mean)
+
+```
