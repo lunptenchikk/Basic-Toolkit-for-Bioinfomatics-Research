@@ -1,0 +1,21 @@
+Here I will explain my code in R for seventh assignment.
+
+Task 1: We've already imported dplyr and tidyr libraries and then we are changing our data frame iris
+to iris_long using pivot_longer(as it was showed on the exercises on the 4.12).
+
+Task 2.1: Mean length and width of sepals and petals per species. We use group_by to group by Species
+and Trait. Next we are computing mean on the size column. Also, I've read, that we can use .groups = "drop"
+after summarise(), to remove grouping after aggregation. After summarise, on default we drop grouping by
+Trait(second parameter), and we use .group = "drop", to drop also Species after aggregation.
+
+Task 2.2: Largest + widest(max) sepal & petal for virginica and versicolor.
+To do it, we are filtering by Species and of course picking only virginica and versicolor,
+next we are grouping them by Spieces and Trait and summarising, searching the largest size.
+At the end, as I already explained earlier, we drop our column Species(inspite of Trait, which was
+droppped earlier)
+
+Task 2.3: For each species & trait: how many observations are above the mean
+So, in the first step(before creating above_mean) we are computing mean per species and trait.
+Also, nothing special, just computing grouping by Species and Trait and then summarising.
+In the second step, we are joining back and count observations, that are greater than mean.
+Then, we also group by Species and Trait and summarise at the end.
