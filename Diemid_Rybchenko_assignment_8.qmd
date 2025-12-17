@@ -1,0 +1,83 @@
+---
+title: "Diemid_Rybchenko_assignment_8"
+format: html
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+set.seed(123)
+```
+
+You can add options to executable code like this
+
+```{r}
+countries <- c("USA", "France", "Italy", "Spain", "UK")
+
+covid_data <- expand_grid(
+date = seq.Date(as.Date("2020-03-01"), by = "day", length.out = 60),
+country = countries
+) %>%
+mutate(
+deaths = round(
+case_when(
+country == "USA" ~ rnorm(n(), 800, 150),
+country == "Italy" ~ rnorm(n(), 600, 120),
+country == "Spain" ~ rnorm(n(), 500, 100),
+country == "France" ~ rnorm(n(), 400, 80),
+country == "UK" ~ rnorm(n(), 450, 90)
+)
+)
+)
+
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+```{r}
+median_lines <- covid_data %>%
+  group_by(country) %>%
+  summarise(median_deaths = median(deaths), .groups = "drop")
+
+ggplot(covid_data, aes(x = date, y = deaths)) +
+  geom_line(
+    color = "steelblue",
+    alpha = 0.6,
+    linewidth = 0.9
+  )+ geom_hline(
+    data = median_lines,
+    aes(yintercept = median_deaths),
+    color = "darkred",
+    linewidth = 0.8,
+    linetype = "dashed"
+  ) + facet_wrap(~ country, scales = "free_y") +
+  labs(
+    title = "Daily COVID-19 Deaths by Country",
+    subtitle = "Dashed line = median deaths per country",
+    x = "Date",
+    y = "Deaths per day"
+  ) + theme_minimal(base_size = 12) + 
+  theme(
+    plot.title = element_text(face = "bold"),
+    strip.text = element_text(face = "bold"),
+    panel.grid.minor = element_blank()
+  )
+
+
+
+
+```
+
+```{r}
+print("Thank you for this course!")
+```
